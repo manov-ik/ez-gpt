@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, make_response
 from google import genai
-import os
 
 app = Flask(__name__)
 
