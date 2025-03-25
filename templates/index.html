@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Processor</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 90vh;
+        background-color: #f5f5f5;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      .buttons {
+        display: flex;
+        gap: 10px;
+        margin-left: 30px;
+      }
+      button {
+        padding: 10px 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        color: white;
+      }
+      .rephrase {
+        background-color: #3498db;
+      }
+      .refine {
+        background-color: #27ae60;
+      }
+      .summarize {
+        background-color: #f39c12;
+      }
+      .expand {
+        background-color: #e74c3c;
+      }
+      .rewrite {
+        background-color: rgb(231, 32, 158);
+      }
+      .copy-btn {
+        background-color: #8e44ad;
+        transition: 0.3s;
+      }
+      button:hover {
+        opacity: 0.8;
+      }
+      .output {
+        width: 80%;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      inp {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Text Processor</h2>
+    <form action="/process" method="post">
+      <div class="inp">
+        <input
+          type="text"
+          name="text"
+          placeholder="Enter your text here..."
+          required
+        />
+        <input
+          type="text"
+          name="api_key"
+          value="{{ api_key }}"
+          placeholder="Enter your API key..."
+          required
+        />
+        <div class="buttons">
+          <button class="rephrase" name="action" value="rephrase">
+            Rephrase
+          </button>
+          <button class="refine" name="action" value="refine">Refine</button>
+          <button class="summarize" name="action" value="summarize">
+            Summarize
+          </button>
+          <button class="expand" name="action" value="expand">Expand</button>
+          <button class="rewrite" name="action" value="rewrite">Rewrite</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="output">
+      <span id="result">{{ result }}</span>
+      <button class="copy-btn" id="copyButton" onclick="copyToClipboard()">
+        Copy
+      </button>
+    </div>
+
+    <script>
+      function copyToClipboard() {
+        const resultText = document.getElementById("result").innerText;
+        const copyButton = document.getElementById("copyButton");
+
+        if (resultText.trim() === "") return;
+
+        navigator.clipboard.writeText(resultText).then(() => {
+          copyButton.innerText = "Copied!";
+          setTimeout(() => {
+            copyButton.innerText = "Copy";
+          }, 2000); // Reset text after 2 seconds
+        });
+      }
+    </script>
+  </body>
+</html>
